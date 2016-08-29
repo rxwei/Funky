@@ -24,7 +24,7 @@ extension Optional : ApplicativeMappable {
     public typealias ApplicativeTransform = ((MapSource) -> MapTarget)?
 
     @inline(__always)
-    public func apply<MapTarget>(_ transform: (@escaping (MapSource) -> MapTarget)?) -> MapTarget? {
+    public func apply<MapTarget>(_ transform: ((MapSource) -> MapTarget)?) -> MapTarget? {
         return transform.flatMap(map)
     }
 
