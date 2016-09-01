@@ -8,8 +8,8 @@
 
 precedencegroup FunctionCompositionPrecedence {
     associativity: left
-    higherThan:    RangeFormationPrecedence
-    lowerThan:     AdditionPrecedence
+    higherThan:    MultiplicationPrecedence
+    lowerThan:     BitwiseShiftPrecedence
 }
 
 infix operator • : FunctionCompositionPrecedence
