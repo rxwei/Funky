@@ -25,7 +25,10 @@ extension Optional : ApplicativeMappable {
 
     @inline(__always)
     public func apply<MapTarget>(_ transform: ((MapSource) -> MapTarget)?) -> MapTarget? {
-        return transform.flatMap(map)
+        guard case let (.some(f), .some(x)) = (transform, self) else {
+            return nil
+        }
+        return f(x)
     }
 
     public static func singleton(_ element: Wrapped) -> Wrapped? {
