@@ -6,6 +6,7 @@
 //
 //
 
+/// Monoid
 public protocol Associative {
 
     static var identity: Self { get }

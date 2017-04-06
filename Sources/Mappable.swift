@@ -6,6 +6,7 @@
 //
 //
 
+/// Functor
 public protocol Mappable {
 
     associatedtype MapSource
@@ -16,6 +17,7 @@ public protocol Mappable {
 
 }
 
+/// Applicative
 public protocol ApplicativeMappable : Mappable {
 
     associatedtype ApplicativeTransform
@@ -26,6 +28,7 @@ public protocol ApplicativeMappable : Mappable {
 
 }
 
+/// Monad
 public protocol FlatMappable : ApplicativeMappable {
 
     func flatMap(_ transform: @escaping (MapSource) -> MapResult) -> MapResult
