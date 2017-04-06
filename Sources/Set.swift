@@ -12,7 +12,7 @@ extension Set : Mappable {
     public typealias MapTarget = Element
     public typealias MapResult = Set<MapTarget>
 
-    public func map<MapTarget: Hashable>(_ transform: @escaping (MapSource) -> MapTarget) -> Set<MapTarget> {
+    public func map<MapTarget>(_ transform: @escaping (MapSource) -> MapTarget) -> Set<MapTarget> {
         return reduce([]) { acc, x in acc.union([transform(x)]) }
     }
 
@@ -22,7 +22,7 @@ extension Set : ApplicativeMappable {
 
     public typealias ApplicativeTransform = [(MapSource) -> MapTarget]
 
-    public func apply<MapTarget: Hashable>(_ transforms: [(MapSource) -> MapTarget]) -> Set<MapTarget> {
+    public func apply<MapTarget>(_ transforms: [(MapSource) -> MapTarget]) -> Set<MapTarget> {
         return transforms.reduce([]) { acc, f in acc.union(self.map(f)) }
     }
 
@@ -36,7 +36,7 @@ extension Set : FlatMappable {
 
     public typealias MMapTarget = Set<MapTarget>
 
-    public func flatMap<MapTarget: Hashable>(_ transform: @escaping (MapSource) -> Set<MapTarget>) -> Set<MapTarget> {
+    public func flatMap<MapTarget>(_ transform: @escaping (MapSource) -> Set<MapTarget>) -> Set<MapTarget> {
         return reduce([]) { acc, x in acc.union(transform(x)) }
     }
     
