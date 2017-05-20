@@ -25,9 +25,7 @@ public protocol Multiplicative {
 
 }
 
-public protocol Numeric : Additive, Multiplicative, ExpressibleByIntegerLiteral, Equatable {
-    init(_: Int)
-}
+public protocol Numeric : Additive, Multiplicative, ExpressibleByIntegerLiteral, Equatable {}
 
 public extension Numeric {
 

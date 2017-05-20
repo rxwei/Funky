@@ -9,21 +9,21 @@
 extension Set : Mappable {
 
     public typealias MapSource = Element
-    public typealias MapTarget = Element
+    public typealias MapTarget = AnyHashable
     public typealias MapResult = Set<MapTarget>
 
-    public func map<MapTarget>(_ transform: @escaping (MapSource) -> MapTarget) -> Set<MapTarget> {
-        return reduce([]) { acc, x in acc.union([transform(x)]) }
+    public func map<MapTarget>(_ transform: (MapSource) throws -> MapTarget) rethrows -> Set<MapTarget> {
+        return try reduce([]) { acc, x in try acc.union([transform(x)]) }
     }
 
 }
 
 extension Set : ApplicativeMappable {
 
-    public typealias ApplicativeTransform = [(MapSource) -> MapTarget]
+    public typealias ApplicativeTransform = [(MapSource) throws -> MapTarget]
 
-    public func apply<MapTarget>(_ transforms: [(MapSource) -> MapTarget]) -> Set<MapTarget> {
-        return transforms.reduce([]) { acc, f in acc.union(self.map(f)) }
+    public func apply<MapTarget>(_ transforms: [(MapSource) throws -> MapTarget]) throws -> Set<MapTarget> {
+        return try transforms.reduce([]) { acc, f in try acc.union(self.map(f)) }
     }
 
     public static func singleton(_ element: Element) -> Set<Element> {
@@ -34,19 +34,10 @@ extension Set : ApplicativeMappable {
 
 extension Set : FlatMappable {
 
-    public typealias MMapTarget = Set<MapTarget>
-
-    public func flatMap<MapTarget>(_ transform: @escaping (MapSource) -> Set<MapTarget>) -> Set<MapTarget> {
-        return reduce([]) { acc, x in acc.union(transform(x)) }
+    public func flatMap<MapTarget>(_ transform: (MapSource) throws -> Set<MapTarget>) rethrows -> Set<MapTarget> {
+        return try reduce([]) { acc, x in try acc.union(transform(x)) }
     }
-    
+
 }
 
-extension Set : Reducible {
-
-    @inline(__always)
-    public func reduce<Result>(_ initial: Result, _ nextPartialResult: @escaping (Result, MapSource) -> Result) -> Result {
-        return try! reduce(initial, (nextPartialResult as (Result, MapSource) throws -> Result))
-    }
-    
-}
+extension Set : Reducible {}

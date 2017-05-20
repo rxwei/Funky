@@ -7,16 +7,13 @@
 //
 
 public protocol Reducible {
-
     associatedtype Element
-
-    func reduce<Result>(_ initial: Result, _ nextPartialResult: @escaping (Result, Element) -> Result) -> Result
-
+    func reduce<Result>(_ initialResult: Result, _ nextPartialResult: (Result, Element) throws -> Result) rethrows -> Result
 }
 
 public extension Reducible {
 
-    public func mapReduce<Result: Associative>(_ transform: @escaping (Element) -> Result) -> Result {
+    public func mapReduce<Result: Associative>(_ transform: (Element) -> Result) -> Result {
         return reduce(Result.identity) { $0 + transform($1) }
     }
 

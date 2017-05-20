@@ -10,10 +10,10 @@
 public protocol Mappable {
 
     associatedtype MapSource
-    associatedtype MapTarget = Any
+    associatedtype MapTarget
     associatedtype MapResult
 
-    func map(_ transform: @escaping (MapSource) -> MapTarget) -> MapResult
+    func map(_ transform: (MapSource) throws -> MapTarget) rethrows -> MapResult
 
 }
 
@@ -22,7 +22,7 @@ public protocol ApplicativeMappable : Mappable {
 
     associatedtype ApplicativeTransform
 
-    func apply(_ transform: ApplicativeTransform) -> MapResult
+    func apply(_ transform: ApplicativeTransform) throws -> MapResult
 
     static func singleton(_ element: MapSource) -> Self
 
@@ -31,7 +31,7 @@ public protocol ApplicativeMappable : Mappable {
 /// Monad
 public protocol FlatMappable : ApplicativeMappable {
 
-    func flatMap(_ transform: @escaping (MapSource) -> MapResult) -> MapResult
+    func flatMap(_ transform: (MapSource) throws -> MapResult) rethrows -> MapResult
 
     static func `return`(_ element: MapSource) -> Self
 
