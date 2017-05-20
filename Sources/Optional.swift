@@ -6,33 +6,43 @@
 //
 //
 
+// MARK: - Internal disambiguator
+internal extension Optional {
+    static func map<U>(_ function: (Wrapped) throws -> U, _ optional: Wrapped?) rethrows -> U? {
+        return try optional.map(function)
+    }
+
+    static func flatMap<U>(_ function: (Wrapped) throws -> U?, _ optional: Wrapped?) rethrows -> U? {
+        return try optional.flatMap(function)
+    }
+}
+
 extension Optional : Mappable {
 
     public typealias MapSource = Wrapped
     public typealias MapTarget = Any
     public typealias MapResult = MapTarget?
 
-    @inline(__always)
-    public func map<MapTarget>(_ transform: @escaping (MapSource) -> MapTarget) -> MapTarget? {
-        return try! map(transform as (Wrapped) throws -> MapTarget)
+    public func map<MapTarget>(_ transform: (MapSource) throws -> MapTarget) rethrows -> MapTarget? {
+        return try Optional.map(transform, self)
     }
 
 }
 
 extension Optional : ApplicativeMappable {
 
-    public typealias ApplicativeTransform = ((MapSource) -> MapTarget)?
+    public typealias ApplicativeTransform = ((MapSource) throws -> MapTarget)?
 
     @inline(__always)
-    public func apply<MapTarget>(_ transform: ((MapSource) -> MapTarget)?) -> MapTarget? {
-        guard case let (.some(f), .some(x)) = (transform, self) else {
+    public func apply<MapTarget>(_ transform: ((MapSource) throws -> MapTarget)?) throws -> MapTarget? {
+        guard case let (f?, x?) = (transform, self) else {
             return nil
         }
-        return f(x)
+        return try f(x)
     }
 
     public static func singleton(_ element: Wrapped) -> Wrapped? {
-        return .some(element)
+        return element
     }
 
 }
@@ -40,8 +50,8 @@ extension Optional : ApplicativeMappable {
 extension Optional : FlatMappable {
 
     @inline(__always)
-    public func flatMap<MapTarget>(_ transform: @escaping (MapSource) -> MapTarget?) -> MapTarget? {
-        return try! flatMap(transform as (Wrapped) throws -> MapTarget?)
+    public func flatMap<MapTarget>(_ transform: @escaping (MapSource) throws -> MapTarget?) -> MapTarget? {
+        return flatMap(transform as (Wrapped) throws -> MapTarget?)
     }
 
 }
