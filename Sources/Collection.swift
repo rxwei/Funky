@@ -7,7 +7,7 @@
 //
 
 public protocol SingletonCollection : Collection {
-    init(singleton: Iterator.Element)
+    init(singleton: Element)
 }
 
 public extension SingletonCollection where Self : ExpressibleByArrayLiteral, Self.ArrayLiteralElement == Element {

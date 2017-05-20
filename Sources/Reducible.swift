@@ -12,17 +12,14 @@ public protocol Reducible {
 }
 
 public extension Reducible {
-
-    public func mapReduce<Result: Associative>(_ transform: (Element) -> Result) -> Result {
+    public func mapReduce<Result: Associable>(_ transform: (Element) -> Result) -> Result {
         return reduce(Result.identity) { $0 + transform($1) }
     }
-
 }
 
-public extension Reducible where Element : Associative {
-
+public extension Reducible where Element : Associable {
+    @inline(__always)
     public func reduced() -> Element {
         return mapReduce{$0}
     }
-
 }

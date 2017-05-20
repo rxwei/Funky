@@ -29,66 +29,70 @@ postfix operator %
 
 public extension Numeric {
     
-    @inline(__always)
     public static prefix func +(rhs: Self) -> (Self) -> Self {
         return { $0 + rhs }
     }
     
-    @inline(__always)
     public static prefix func -(rhs: Self) -> (Self) -> Self {
         return { $0 - rhs }
     }
     
-    @inline(__always)
     public static prefix func *(rhs: Self) -> (Self) -> Self {
         return { $0 * rhs }
     }
-    
-    @inline(__always)
-    public static prefix func /(rhs: Self) -> (Self) -> Self {
-        return { $0 / rhs }
-    }
-    
-    @inline(__always)
-    public static prefix func %(rhs: Self) -> (Self) -> Self {
-        return { $0 % rhs }
-    }
-    
-    @inline(__always)
+
     public static postfix func +(lhs: Self) -> (Self) -> Self {
         return { lhs + $0 }
     }
     
-    @inline(__always)
     public static postfix func -(lhs: Self) -> (Self) -> Self {
         return { lhs - $0 }
     }
     
-    @inline(__always)
     public static postfix func *(lhs: Self) -> (Self) -> Self {
         return { lhs * $0  }
     }
+
+}
+
+public extension BinaryInteger {
+
+    public static prefix func /(rhs: Self) -> (Self) -> Self {
+        return { $0 / rhs }
+    }
     
-    @inline(__always)
+    public static prefix func %(rhs: Self) -> (Self) -> Self {
+        return { $0 % rhs }
+    }
+    
     public static postfix func /(lhs: Self) -> (Self) -> Self {
         return { lhs / $0 }
     }
     
-    @inline(__always)
     public static postfix func %(lhs: Self) -> (Self) -> Self {
         return { lhs % $0 }
     }
     
 }
 
+public extension FloatingPoint {
+
+    public static prefix func /(rhs: Self) -> (Self) -> Self {
+        return { $0 / rhs }
+    }
+
+    public static postfix func /(lhs: Self) -> (Self) -> Self {
+        return { lhs / $0 }
+    }
+
+}
+
 public extension Comparable {
     
-    @inline(__always)
     public static prefix func ==(rhs: Self) -> (Self) -> Bool {
         return { $0 == rhs }
     }
     
-    @inline(__always)
     public static prefix func !=(rhs: Self) -> (Self) -> Bool {
         return { $0 != rhs }
     }

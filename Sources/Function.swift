@@ -71,6 +71,12 @@ public func curry<A, B, C, D, E, F>(_ f: @escaping (A, B, C, D, E) -> F) -> (A) 
     return { x in { y in { z in { a in { b in f(x, y, z, a, b) } } } } }
 }
 
+// ((a, b, c, d, e, f) -> g) -> a -> b -> c -> d -> e -> f -> g
+@inline(__always)
+public func curry<A, B, C, D, E, F, G>(_ f: @escaping (A, B, C, D, E, F) -> G) -> (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> G {
+    return { x in { y in { z in { a in { b in { c in f(x, y, z, a, b, c) } } } } } }
+}
+
 // (a -> b -> c) -> (a, b) -> c
 @inline(__always)
 public func uncurry<A, B, C>(_ f: @escaping (A) -> (B) -> C) -> (A, B) -> C {
@@ -95,6 +101,12 @@ public func uncurry<A, B, C, D, E, F>(_ f: @escaping (A) -> (B) -> (C) -> (D) ->
     return { (x, y, z, a, b) in f(x)(y)(z)(a)(b) }
 }
 
+// (a -> b -> c -> d -> e -> f -> g) -> (a, b, c, d, e, f) -> g
+@inline(__always)
+public func uncurry<A, B, C, D, E, F, G>(_ f: @escaping (A) -> (B) -> (C) -> (D) -> (E) -> (F) -> G) -> (A, B, C, D, E, F) -> G {
+    return { (x, y, z, a, b, c) in f(x)(y)(z)(a)(b)(c) }
+}
+
 // Flip argument order of a binary function
 @inline(__always)
 public func flip<A, B, C>(_ f: @escaping (A, B) -> C) -> (B, A) -> C {
@@ -107,7 +119,12 @@ public func flip<A, B, C>(_ f: @escaping (A) -> (B) -> C) -> (B) -> (A) -> C {
     return { x in { y in f(y)(x) } }
 }
 
-// Fixed-Point Combinator
+// Fixed-Point combinator (simulated by recursion)
+@available(*, renamed: "withFixedPoint")
 public func fixedPoint<A, B>(_ f: @escaping (@escaping (A) -> B) -> (A) -> B) -> (A) -> B {
+    return { f(fixedPoint(f))($0) }
+}
+
+public func withFixedPoint<A, B>(_ f: @escaping (@escaping (A) -> B) -> (A) -> B) -> (A) -> B {
     return { f(fixedPoint(f))($0) }
 }

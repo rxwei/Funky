@@ -8,10 +8,12 @@
 
 // MARK: - Internal disambiguator
 internal extension Optional {
+    @inline(__always)
     static func map<U>(_ function: (Wrapped) throws -> U, _ optional: Wrapped?) rethrows -> U? {
         return try optional.map(function)
     }
 
+    @inline(__always)
     static func flatMap<U>(_ function: (Wrapped) throws -> U?, _ optional: Wrapped?) rethrows -> U? {
         return try optional.flatMap(function)
     }
@@ -23,6 +25,7 @@ extension Optional : Mappable {
     public typealias MapTarget = Any
     public typealias MapResult = MapTarget?
 
+    @inline(__always)
     public func map<MapTarget>(_ transform: (MapSource) throws -> MapTarget) rethrows -> MapTarget? {
         return try Optional.map(transform, self)
     }
@@ -33,7 +36,6 @@ extension Optional : ApplicativeMappable {
 
     public typealias ApplicativeTransform = ((MapSource) throws -> MapTarget)?
 
-    @inline(__always)
     public func apply<MapTarget>(_ transform: ((MapSource) throws -> MapTarget)?) throws -> MapTarget? {
         guard case let (f?, x?) = (transform, self) else {
             return nil

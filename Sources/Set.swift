@@ -33,11 +33,9 @@ extension Set : ApplicativeMappable {
 }
 
 extension Set : FlatMappable {
-
     public func flatMap<MapTarget>(_ transform: (MapSource) throws -> Set<MapTarget>) rethrows -> Set<MapTarget> {
         return try reduce([]) { acc, x in try acc.union(transform(x)) }
     }
-
 }
 
 extension Set : Reducible {}
