@@ -29,27 +29,27 @@ postfix operator %
 
 public extension Numeric {
     
-    public static prefix func +(rhs: Self) -> (Self) -> Self {
+    static prefix func +(rhs: Self) -> (Self) -> Self {
         return { $0 + rhs }
     }
-    
-    public static prefix func -(rhs: Self) -> (Self) -> Self {
+
+    static prefix func -(rhs: Self) -> (Self) -> Self {
         return { $0 - rhs }
     }
     
-    public static prefix func *(rhs: Self) -> (Self) -> Self {
+    static prefix func *(rhs: Self) -> (Self) -> Self {
         return { $0 * rhs }
     }
 
-    public static postfix func +(lhs: Self) -> (Self) -> Self {
+    static postfix func +(lhs: Self) -> (Self) -> Self {
         return { lhs + $0 }
     }
     
-    public static postfix func -(lhs: Self) -> (Self) -> Self {
+    static postfix func -(lhs: Self) -> (Self) -> Self {
         return { lhs - $0 }
     }
     
-    public static postfix func *(lhs: Self) -> (Self) -> Self {
+    static postfix func *(lhs: Self) -> (Self) -> Self {
         return { lhs * $0  }
     }
 
@@ -57,19 +57,19 @@ public extension Numeric {
 
 public extension BinaryInteger {
 
-    public static prefix func /(rhs: Self) -> (Self) -> Self {
+    static prefix func /(rhs: Self) -> (Self) -> Self {
         return { $0 / rhs }
     }
     
-    public static prefix func %(rhs: Self) -> (Self) -> Self {
+    static prefix func %(rhs: Self) -> (Self) -> Self {
         return { $0 % rhs }
     }
     
-    public static postfix func /(lhs: Self) -> (Self) -> Self {
+    static postfix func /(lhs: Self) -> (Self) -> Self {
         return { lhs / $0 }
     }
     
-    public static postfix func %(lhs: Self) -> (Self) -> Self {
+    static postfix func %(lhs: Self) -> (Self) -> Self {
         return { lhs % $0 }
     }
     

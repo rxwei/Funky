@@ -7,16 +7,16 @@
 //
 
 public protocol SingletonCollection : Collection {
-    init(singleton: Element)
+    init(singleton: Iterator.Element)
 }
 
+#if swift(>=4.0)
 public extension SingletonCollection where Self : ExpressibleByArrayLiteral, Self.ArrayLiteralElement == Element {
-
     public init(singleton: Element) {
         self = [singleton]
     }
-
 }
+#endif
 
 extension CollectionOfOne : SingletonCollection {
 

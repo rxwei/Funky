@@ -8,6 +8,8 @@
 
 public extension Sequence {
 
+    typealias Element = Iterator.Element
+
     /// Returns true if all elements satisfy the predicate
     func forAll(_ predicate: (Element) -> Bool) -> Bool {
         return reduce(true, { $0 && predicate($1) })
