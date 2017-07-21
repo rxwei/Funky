@@ -24,7 +24,6 @@ extension Array : Mappable {
     public typealias MapTarget = Any
     public typealias MapResult = [MapTarget]
 
-    @inline(__always)
     public func map<MapTarget>(_ transform: (MapSource) throws -> MapTarget) rethrows -> [MapTarget] {
         return try Array.map(transform, self)
     }
@@ -47,7 +46,6 @@ extension Array : ApplicativeMappable {
 
 extension Array : FlatMappable {
 
-    @inline(__always)
     public func flatMap<MapTarget>(_ transform: @escaping (MapSource) throws -> [MapTarget]) rethrows -> [MapTarget] {
         return try Array.flatMap(transform, self)
     }

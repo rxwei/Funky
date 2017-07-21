@@ -25,7 +25,6 @@ extension Optional : Mappable {
     public typealias MapTarget = Any
     public typealias MapResult = MapTarget?
 
-    @inline(__always)
     public func map<MapTarget>(_ transform: (MapSource) throws -> MapTarget) rethrows -> MapTarget? {
         return try Optional.map(transform, self)
     }
